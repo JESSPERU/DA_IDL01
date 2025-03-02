@@ -122,3 +122,56 @@ for empleado in empleados:
             print(f"  - {sub.get_resumen()}")
     
     print("-" * 40)  # Separador
+
+# Se agregan los métodos Getter y Setter en la clase Empleado
+def get_nombre(self):
+    return self.nombre
+
+def set_nombre(self, nombre):
+    self.nombre = nombre
+
+def get_dni(self):
+    return self.dni
+
+def set_dni(self, dni):
+    self.dni = dni
+
+# Métodos Getter y Setter en la clase Gerente
+def get_subordinados(self):
+    return self.subordinados
+
+def set_subordinados(self, subordinados):
+    self.subordinados = subordinados
+
+# Métodos Getter y Setter en la clase JefeArea
+def get_gerente(self):
+    return self.gerente
+
+def set_gerente(self, gerente):
+    self.gerente = gerente
+
+def get_subordinados(self):
+    return self.subordinados
+
+def set_subordinados(self, subordinados):
+    self.subordinados = subordinados
+
+# Métodos Getter y Setter en la clase Asistente
+def get_jefe_area(self):
+    return self.jefe_area
+
+def set_jefe_area(self, jefe_area):
+    self.jefe_area = jefe_area
+
+# Métodos Getter y Setter en la clase Tecnico
+def get_jefe_area(self):
+    return self.jefe_area
+
+def set_jefe_area(self, jefe_area):
+    self.jefe_area = jefe_area
+
+def get_anios_experiencia(self):
+    return self.anios_experiencia
+
+def set_anios_experiencia(self, anios):
+    self.anios_experiencia = anios

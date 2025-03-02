@@ -1,74 +1,113 @@
 import streamlit as st
 
-# Definición de clases
+# Definimos la clase padre Empleado y sus atributos comunes
 class Empleado:
-    def __init__(self, nombre, dni, salario):
-        self._nombre = nombre
-        self._dni = dni
-        self._salario = salario
-    
-    def get_nombre(self):
-        return self._nombre
-    
-    def get_dni(self):
-        return self._dni
-    
-    def get_salario(self):
-        return self._salario
-    
-    def set_salario(self, nuevo_salario):
-        self._salario = nuevo_salario
+    def __init__(self, nombre, dni):
+        self.nombre = nombre
+        self.dni = dni
+
+    def get_resumen(self):
+        return f"{self.nombre} - {self.__class__.__name__}"
+
+    def get_jefe_inmediato(self):
+        return "No asignado"
+
+    def get_estado(self, estado):
+        estados_validos = {"TC": "Término de contrato", "D": "Despido", "R": "Renuncia"}
+        return estados_validos.get(estado, "Activo")
 
 class Gerente(Empleado):
-    def __init__(self, nombre, dni, salario):
-        super().__init__(nombre, dni, salario)
-        self.jefes_area = []
-    
-    def agregar_jefe_area(self, jefe_area):
-        self.jefes_area.append(jefe_area)
+    def __init__(self, nombre, dni):
+        super().__init__(nombre, dni)
+        self.subordinados = []
+
+    def agregar_subordinado(self, jefe):
+        self.subordinados.append(jefe)
 
 class JefeArea(Empleado):
-    def __init__(self, nombre, dni, salario, gerente):
-        super().__init__(nombre, dni, salario)
+    def __init__(self, nombre, dni, gerente):
+        super().__init__(nombre, dni)
         self.gerente = gerente
-        self.asistentes = []
-        self.tecnicos = []
-        gerente.agregar_jefe_area(self)
-    
-    def agregar_asistente(self, asistente):
-        self.asistentes.append(asistente)
-    
-    def agregar_tecnico(self, tecnico):
-        self.tecnicos.append(tecnico)
+        self.subordinados = []
+
+    def get_jefe_inmediato(self):
+        return self.gerente.nombre if self.gerente else "No tiene jefe inmediato"
+
+    def agregar_subordinado(self, empleado):
+        self.subordinados.append(empleado)
 
 class Asistente(Empleado):
-    def __init__(self, nombre, dni, salario, jefe_area):
-        super().__init__(nombre, dni, salario)
+    def __init__(self, nombre, dni, jefe_area):
+        super().__init__(nombre, dni)
         self.jefe_area = jefe_area
-        jefe_area.agregar_asistente(self)
+
+    def get_jefe_inmediato(self):
+        return self.jefe_area.nombre if self.jefe_area else "No tiene jefe inmediato"
 
 class Tecnico(Empleado):
-    def __init__(self, nombre, dni, salario, jefe_area):
-        super().__init__(nombre, dni, salario)
-        self.jefe_area = jefe_area  # Se corrige para evitar el error de atributo
-        jefe_area.agregar_tecnico(self)
+    def __init__(self, nombre, dni, jefe_area, anios_experiencia):
+        super().__init__(nombre, dni)
+        self.jefe_area = jefe_area
+        self.anios_experiencia = anios_experiencia
 
-# Crear instancias de empleados
-gerente = Gerente("Carlos Perez", "12345678", 10000)
-jefe1 = JefeArea("María Lopez", "87654321", 8000, gerente)
-jefe2 = JefeArea("Juan Rojas", "56781234", 7500, gerente)
-asistente1 = Asistente("Pedro Díaz", "23456789", 4000, jefe1)
-tecnico1 = Tecnico("Luis Torres", "34567890", 3500, jefe1)
+    def get_jefe_inmediato(self):
+        return self.jefe_area.nombre if self.jefe_area else "No tiene jefe inmediato"
 
-def mostrar_empleado(empleado):
-    st.subheader(f"Nombre: {empleado.get_nombre()}")
-    st.write(f"DNI: {empleado.get_dni()}")
-    st.write(f"Salario: {empleado.get_salario()}")
+    def get_resumen(self):
+        return f"{self.nombre} - {self.__class__.__name__} - {self.anios_experiencia} años de experiencia"
 
-# Interfaz en Streamlit
+# Creación de objetos
 st.title("Sistema de Recursos Humanos - Business Corporation")
-st.header("Información del Personal")
 
-empleados = [gerente, jefe1, jefe2, asistente1, tecnico1]
+gerente = Gerente("Carlos López", "12345678")
+
+jefes = [
+    JefeArea("María Pérez", "87654321", gerente),
+    JefeArea("Juan García", "56781234", gerente),
+    JefeArea("Luis Torres", "34567812", gerente),
+    JefeArea("Ana Mendoza", "23456789", gerente),
+    JefeArea("Pedro Ruiz", "45678123", gerente)
+]
+
+for jefe in jefes:
+    gerente.agregar_subordinado(jefe)
+
+asistentes = [
+    Asistente("Ana Torres", "11111111", jefes[0]),
+    Asistente("Luis Mendoza", "22222222", jefes[1]),
+    Asistente("Sofía Herrera", "33333333", jefes[2]),
+    Asistente("Carlos Ramírez", "44444444", jefes[3]),
+    Asistente("Gabriela Núñez", "55555555", jefes[4])
+]
+
+tecnicos = [
+    Tecnico("José Fernández", "66666666", jefes[0], 4),
+    Tecnico("Elena Ríos", "77777777", jefes[0], 2),
+    Tecnico("Manuel Gómez", "88888888", jefes[1], 5),
+    Tecnico("Clara Vidal", "99999999", jefes[1], 3),
+    Tecnico("Ricardo Salas", "10101010", jefes[2], 1),
+    Tecnico("Andrea Castro", "11111112", jefes[3], 2),
+    Tecnico("Daniel Peralta", "12121212", jefes[4], 3)
+]
+
+for asistente in asistentes:
+    asistente.jefe_area.agregar_subordinado(asistente)
+
+for tecnico in tecnicos:
+    tecnico.jefe_area.agregar_subordinado(tecnico)
+
+empleados = [gerente] + jefes + asistentes + tecnicos
+
+# Visualización en Streamlit
+st.subheader("Lista de Empleados")
 for empleado in empleados:
-    mostrar_empleado(empleado)
+    with st.expander(empleado.get_resumen()):
+        st.write(f"**Nombre:** {empleado.nombre}")
+        st.write(f"**DNI:** {empleado.dni}")
+        st.write(f"**Jefe inmediato:** {empleado.get_jefe_inmediato()}")
+        st.write(f"**Estado:** {empleado.get_estado('Activo')}")
+        
+        if hasattr(empleado, 'subordinados') and empleado.subordinados:
+            st.write("**Subordinados:**")
+            for sub in empleado.subordinados:
+                st.write(f"  - {sub.get_resumen()}")

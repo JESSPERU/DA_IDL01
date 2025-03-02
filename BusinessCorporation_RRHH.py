@@ -84,23 +84,48 @@ jefe2 = JefeArea("Juan García", "56781234", gerente1)
 gerente1.agregar_subordinado(jefe1)
 gerente1.agregar_subordinado(jefe2)
 
-# Instanciamos asistentes y técnicos y los asignamos a jefes de área
-asistente1 = Asistente("Ana Torres", "34567812", jefe1)
-asistente2 = Asistente("Luis Mendoza", "23456789", jefe2)
+# Instanciar el Gerente
+gerente = Gerente("Carlos López", "12345678")
 
-tecnico1 = Tecnico("Pedro Ruiz", "45678123", jefe1, 5)
-tecnico2 = Tecnico("Sofía Herrera", "67891234", jefe2, 3)
+# Crear los 5 jefes de área y asignarlos al gerente
+jefes = [
+    JefeArea("María Pérez", "87654321", gerente),  # Marketing
+    JefeArea("Juan García", "56781234", gerente),  # Sistemas
+    JefeArea("Luis Torres", "34567812", gerente),  # Producción
+    JefeArea("Ana Mendoza", "23456789", gerente),  # Logística
+    JefeArea("Pedro Ruiz", "45678123", gerente)    # Finanzas
+]
 
-# Agregamos los asistentes y técnicos a las listas de subordinados de los jefes
-jefe1.agregar_subordinado(asistente1)
-jefe1.agregar_subordinado(tecnico1)
+# Agregar los jefes al gerente
+for jefe in jefes:
+    gerente.agregar_subordinado(jefe)
 
-jefe2.agregar_subordinado(asistente2)
-jefe2.agregar_subordinado(tecnico2)
+# Crear asistentes (1 o 2 por jefe)
+asistentes = [
+    Asistente("Ana Torres", "11111111", jefes[0]),  # Marketing
+    Asistente("Luis Mendoza", "22222222", jefes[1]),  # Sistemas
+    Asistente("Sofía Herrera", "33333333", jefes[2]),  # Producción
+    Asistente("Carlos Ramírez", "44444444", jefes[3]),  # Logística
+    Asistente("Gabriela Núñez", "55555555", jefes[4])   # Finanzas
+]
 
-# Creamos un array de empleados con todos los objetos creados
-empleados = [gerente1, jefe1, jefe2, asistente1, asistente2, tecnico1, tecnico2]
+# Crear técnicos (3 a 5 por jefe)
+tecnicos = [
+    Tecnico("José Fernández", "66666666", jefes[0], 4),
+    Tecnico("Elena Ríos", "77777777", jefes[0], 2),
+    Tecnico("Manuel Gómez", "88888888", jefes[1], 5),
+    Tecnico("Clara Vidal", "99999999", jefes[1], 3),
+    Tecnico("Ricardo Salas", "10101010", jefes[2], 1),
+    Tecnico("Andrea Castro", "11111112", jefes[3], 2),
+    Tecnico("Daniel Peralta", "12121212", jefes[4], 3)
+]
 
-# Recorremos la lista de empleados e imprimimos su resumen
-for empleado in empleados:
-    print(empleado.get_resumen())
+# Asignar asistentes y técnicos a los jefes correspondientes
+for asistente in asistentes:
+    asistente.jefe_area.agregar_subordinado(asistente)
+
+for tecnico in tecnicos:
+    tecnico.jefe_area.agregar_subordinado(tecnico)
+
+# Crear el array de empleados
+empleados = [gerente] + jefes + asistentes + tecnicos

@@ -129,3 +129,11 @@ for tecnico in tecnicos:
 
 # Crear el array de empleados
 empleados = [gerente] + jefes + asistentes + tecnicos
+
+for empleado in empleados:
+    print(f"Nombre: {empleado.get_nombre()}")
+    print(f"Resumen: {empleado.get_resumen()}")
+    print(f"Jefe inmediato: {empleado.get_jefe_inmediato()}")
+    print(f"Estado: {empleado.get_estado('Activo')}")
+    print("-" * 30)  # Separador
+

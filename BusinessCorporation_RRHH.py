@@ -71,3 +71,36 @@ class Tecnico(Empleado):
     # Sobreescribimos el método get_resumen para incluir los años de experiencia
     def get_resumen(self):
         return f"{self.nombre} - {self.__class__.__name__} - {self.anios_experiencia} años de experiencia"
+
+#Empezamos a instanciar para mostrar el código creado
+# Instanciamos un gerente
+gerente1 = Gerente("Carlos López", "12345678")
+
+# Instanciamos jefes de área y los asignamos al gerente
+jefe1 = JefeArea("María Pérez", "87654321", gerente1)
+jefe2 = JefeArea("Juan García", "56781234", gerente1)
+
+# Agregamos los jefes de área a la lista de subordinados del gerente
+gerente1.agregar_subordinado(jefe1)
+gerente1.agregar_subordinado(jefe2)
+
+# Instanciamos asistentes y técnicos y los asignamos a jefes de área
+asistente1 = Asistente("Ana Torres", "34567812", jefe1)
+asistente2 = Asistente("Luis Mendoza", "23456789", jefe2)
+
+tecnico1 = Tecnico("Pedro Ruiz", "45678123", jefe1, 5)
+tecnico2 = Tecnico("Sofía Herrera", "67891234", jefe2, 3)
+
+# Agregamos los asistentes y técnicos a las listas de subordinados de los jefes
+jefe1.agregar_subordinado(asistente1)
+jefe1.agregar_subordinado(tecnico1)
+
+jefe2.agregar_subordinado(asistente2)
+jefe2.agregar_subordinado(tecnico2)
+
+# Creamos un array de empleados con todos los objetos creados
+empleados = [gerente1, jefe1, jefe2, asistente1, asistente2, tecnico1, tecnico2]
+
+# Recorremos la lista de empleados e imprimimos su resumen
+for empleado in empleados:
+    print(empleado.get_resumen())

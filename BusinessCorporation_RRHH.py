@@ -174,4 +174,21 @@ def get_anios_experiencia(self):
     return self.anios_experiencia
 
 def set_anios_experiencia(self, anios):
-    self.anios_experiencia = anios
+    self.anios_experiencia = anios  
+
+import streamlit as st
+
+st.title("Sistema de Recursos Humanos - Business Corporation")
+
+# Mostrar información de los empleados
+for empleado in empleados:
+    st.subheader(f"Nombre: {empleado.get_nombre()}")
+    st.write(f" Resumen: {empleado.get_resumen()}")
+    st.write(f" Jefe inmediato: {empleado.get_jefe_inmediato()}")
+    st.write(f" Estado: {empleado.get_estado('Activo')}")
+
+    # Verificar si tiene subordinados
+    if hasattr(empleado, 'subordinados') and empleado.subordinados:
+        st.write(" **Subordinados:**")
+        for sub in empleado.subordinados:
+            st.write(f"  - {sub.get_resumen()}")

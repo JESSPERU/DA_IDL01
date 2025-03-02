@@ -139,3 +139,18 @@ for empleado in empleados:
     print(f"Estado: {empleado.get_estado('Activo')}")
     print("-" * 30)  # Separador
 
+#Se agregan subordinados
+#  Listar subordinados de cada jefe de área
+for jefe in jefes:
+    print(f"Jefe de Área: {jefe.nombre}")
+    print("  Subordinados:")
+    for sub in jefe.subordinados:
+        print(f"    - {sub.get_resumen()}")
+    print("-" * 40)
+
+# Listar los jefes de área asignados al gerente
+print(f"Gerente: {gerente.nombre}")
+print("  Jefes de Área:")
+for jefe in gerente.subordinados:
+    print(f"    - {jefe.get_resumen()}")
+print("=" * 50)

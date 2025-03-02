@@ -15,6 +15,8 @@ class Empleado:
         # Definimos los estados posibles
         estados_validos = {"TC": "Término de contrato", "D": "Despido", "R": "Renuncia"}
         return estados_validos.get(estado, "Activo")
+    def get_nombre(self):
+        return self.nombre
 
 # Definimos la clase Gerente que hereda de Empleado
 class Gerente(Empleado):
@@ -131,7 +133,7 @@ for tecnico in tecnicos:
 empleados = [gerente] + jefes + asistentes + tecnicos
 
 for empleado in empleados:
-    print(f"Nombre: {empleado.get_nombre()}")
+    print(f"Nombre: {empleado.nombre}")
     print(f"Resumen: {empleado.get_resumen()}")
     print(f"Jefe inmediato: {empleado.get_jefe_inmediato()}")
     print(f"Estado: {empleado.get_estado('Activo')}")

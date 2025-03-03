@@ -21,7 +21,7 @@ class Empleado:
         self._dni = dni
 
     def get_resumen(self):
-        return f"{self.nombre} - {self.class.name_}"
+        return f"{self.nombre} - {self.__class__.__name__}"
 
     def get_jefe_inmediato(self):
         return "No asignado"
@@ -95,7 +95,7 @@ class Tecnico(Empleado):
         return self._jefe_area.get_nombre() if self._jefe_area else "No tiene jefe inmediato"
 
     def get_resumen(self):
-        return f"{self.nombre} - {self.class.name_} - {self._anios_experiencia} años de experiencia"
+        return f"{self.nombre} - {self.__class__.__name__} - {self._anios_experiencia} años de experiencia"
 
 
 # Creación de objetos

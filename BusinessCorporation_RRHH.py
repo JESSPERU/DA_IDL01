@@ -2,7 +2,7 @@ import streamlit as st
 
 # Definimos la clase padre Empleado y sus atributos comunes
 class Empleado:
-    def _init_(self, nombre, dni):
+    def __init__(self, nombre, dni):
         self._nombre = nombre
         self._dni = dni
         self._estado = "Activo"
@@ -21,7 +21,7 @@ class Empleado:
         self._dni = dni
 
     def get_resumen(self):
-        return f"{self.nombre} - {self.__class__.__name__}"
+        return f"{self._nombre} - {self.__class__.__name__}"
 
     def get_jefe_inmediato(self):
         return "No asignado"
@@ -38,8 +38,8 @@ class Empleado:
 
 
 class Gerente(Empleado):
-    def _init_(self, nombre, dni):
-        super()._init_(nombre, dni)
+    def __init__(self, nombre, dni):
+        super().__init__(nombre, dni)
         self._subordinados = []
 
     def agregar_subordinado(self, jefe):
@@ -51,8 +51,8 @@ class Gerente(Empleado):
 
 
 class JefeArea(Empleado):
-    def _init_(self, nombre, dni, gerente):
-        super()._init_(nombre, dni)
+    def __init__(self, nombre, dni, gerente):
+        super().__init__(nombre, dni)
         self._gerente = gerente
         self._asistentes = []
         self._tecnicos = []
@@ -77,8 +77,8 @@ class JefeArea(Empleado):
 
 
 class Asistente(Empleado):
-    def _init_(self, nombre, dni, jefe_area):
-        super()._init_(nombre, dni)
+    def __init__(self, nombre, dni, jefe_area):
+        super().__init__(nombre, dni)
         self._jefe_area = jefe_area
 
     def get_jefe_inmediato(self):
@@ -86,8 +86,8 @@ class Asistente(Empleado):
 
 
 class Tecnico(Empleado):
-    def _init_(self, nombre, dni, jefe_area, anios_experiencia):
-        super()._init_(nombre, dni)
+    def __init__(self, nombre, dni, jefe_area, anios_experiencia):
+        super().__init__(nombre, dni)
         self._jefe_area = jefe_area
         self._anios_experiencia = anios_experiencia
 
@@ -95,7 +95,7 @@ class Tecnico(Empleado):
         return self._jefe_area.get_nombre() if self._jefe_area else "No tiene jefe inmediato"
 
     def get_resumen(self):
-        return f"{self.nombre} - {self.__class__.__name__} - {self._anios_experiencia} años de experiencia"
+        return f"{self._nombre} - {self.__class__.__name__} - {self._anios_experiencia} años de experiencia"
 
 
 # Creación de objetos
